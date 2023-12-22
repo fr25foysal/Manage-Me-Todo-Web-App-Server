@@ -30,13 +30,26 @@ const taskCollection = client.db('manageme').collection('tasks')
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
+    await client.connect();
 
     app.post('/tasks',async(req,res)=>{
       const task = req.body
       const result = await taskCollection.insertOne(task)
       res.send(result)
     })    
+
+    app.get('/todo-tasks',async(req,res)=>{
+      const result = await taskCollection.find({status: "to-do"}).toArray()
+      res.send(result)
+    })
+    app.get('/inprogress-tasks',async(req,res)=>{
+      const result = await taskCollection.find({status: "inprogress"}).toArray()
+      res.send(result)
+    })
+    app.get('/completed-tasks',async(req,res)=>{
+      const result = await taskCollection.find({status: "completed"}).toArray()
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
