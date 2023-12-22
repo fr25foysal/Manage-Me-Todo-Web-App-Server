@@ -39,15 +39,18 @@ async function run() {
     })    
 
     app.get('/todo-tasks',async(req,res)=>{
-      const result = await taskCollection.find({status: "to-do"}).toArray()
+      const email = req.query.email
+      const result = await taskCollection.find({status: "to-do",email: email}).toArray()
       res.send(result)
     })
     app.get('/inprogress-tasks',async(req,res)=>{
-      const result = await taskCollection.find({status: "inprogress"}).toArray()
+      const email = req.query.email
+      const result = await taskCollection.find({status: "inprogress",email: email}).toArray()
       res.send(result)
     })
     app.get('/completed-tasks',async(req,res)=>{
-      const result = await taskCollection.find({status: "completed"}).toArray()
+      const email = req.query.email
+      const result = await taskCollection.find({status: "completed",email: email}).toArray()
       res.send(result)
     })
 
