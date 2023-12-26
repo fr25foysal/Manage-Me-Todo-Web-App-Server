@@ -45,6 +45,17 @@ async function run() {
       res.send(result)
     })
 
+    app.patch('/edit-task/:id',async(req,res)=>{
+      const id = req.params.id
+      const data = req.body
+      const filter = {'_id': new ObjectId(id)}
+      const update = {
+        $set: data
+      }
+      const result = await taskCollection.updateOne(filter,update)
+      res.send(result)
+    })
+
     app.get('/todo-tasks',async(req,res)=>{
       const email = req.query.email
       const result = await taskCollection.find({status: "to-do",email: email}).toArray()
